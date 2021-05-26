@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+package conredis;
+
+service service {
+  rpc RedisService(News) returns (stream Result) {} ;
+}
+
+message Result {
+  string response = 1;
+}
+
+message Source {
+  string id = 1;
+  string name = 2;
+}
+
+message Articles {
+  Source sources = 1;
+  string author= 2;
+  string title= 3;
+  string description= 4;
+  string url= 5;
+  string urlToImage= 6;
+  string publishedAt= 7;
+  string content= 8;
+}
+
+message News {
+  Articles Article = 1;
+}
