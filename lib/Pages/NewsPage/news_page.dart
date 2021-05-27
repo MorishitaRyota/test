@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Models/Controllers/NewsController/news_controller.dart';
+import 'package:flutter_app/Models/Controllers/ArticleController/article_controller.dart';
+import 'package:flutter_app/Models/Entities/Article/news_article.dart';
+import 'package:flutter_app/Pages/NewsPage/web_view.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'new_list_tile.dart';
 
+//HookWidgetはstatelessWidgetで、useProvider,useContextなどが使用できるようにする為に使用
 class NewsPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
@@ -51,18 +54,40 @@ class NewsPage extends HookWidget {
 
   void _submission(String searchKeyword, BuildContext context) {
     print(searchKeyword);
+    //ArticleStateControllerクラスのgetSearchArticleを呼び出し
     context
-        .read(newsStateControllerProvider.notifier)
+        .read(articleStateControllerProvider.notifier)
         .getSearchArticle(searchKeyword);
   }
 
   Widget _buildList() {
-    final newsListState = useProvider(newsStateControllerProvider);
+    //statenotifierで検知しているarticleStateのLoadingの状態を監視
+    /*final isLoading =
+        useProvider(articleStateControllerProvider.select((v) => v.isLoading));
+    print(isLoading);
+    //statenotifierで検知しているarticleStateのarticlesの状態を監視
+    final newsListState =
+        useProvider(articleStateControllerProvider.select((v) => v.articles));
+    */
+    final newsListState = useProvider(articleStateControllerProvider);
+
     print('NewsPage => BuildList = $newsListState');
 
     //print(repositoryListState.state);
 
-    return newsListState.when(
+    return /*isLoading
+        ? ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: newsListState.length,
+            itemBuilder: (BuildContext context, int index) {
+              print(newsListState[index]);
+              return newsListTile(newsListState[index], context);
+            },
+          )
+        : const Center(
+            child: CircularProgressIndicator(),
+          );*/
+        newsListState.when(
       data: (newsList) => newsList.isNotEmpty
           ? ListView.builder(
               padding: const EdgeInsets.all(16),

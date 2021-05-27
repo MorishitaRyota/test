@@ -15,16 +15,15 @@ class ApiClient {
   ApiClient._internal(this.baseUrl);
   // singleton にする為の instance キャッシュ
   static ApiClient _instance;
+  //接続先となるAPIのURL
   final String baseUrl;
 
   Future<String> get(String endpoint) async {
     final url = Uri.parse('$baseUrl$endpoint');
     print('$baseUrl$endpoint');
     try {
-      print('ApiClient => InTry');
+      //接続先からJsonを取得
       final response = await http.get(url);
-      final code = response.statusCode;
-      print('ApiClient => response status = $code');
       return _parseResponse(response.statusCode, response.body);
     } on SocketException {
       throw Exception('No Internet connection');
@@ -34,8 +33,7 @@ class ApiClient {
   String _parseResponse(int httpStatus, String responseBody) {
     switch (httpStatus) {
       case 200:
-        //print(responseBody);
-        print('ApiClient => _parseResponse = $responseBody');
+        print('ApiClient => _parseResponse = $httpStatus');
         return responseBody;
         break;
       default:

@@ -6,11 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //providerを宣言
 final grpcStateProvider = Provider.autoDispose(
-  (ref) => GrpcState(ref.read(grpcClientProvider)),
+  (ref) => GrpcRepository(ref.read(grpcClientProvider)),
 );
 
-class GrpcState {
-  GrpcState(this._grpcClient);
+class GrpcRepository {
+  GrpcRepository(this._grpcClient);
 
   final GrpcClient _grpcClient;
 

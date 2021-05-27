@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Models/Entities/Article/news_article.dart';
+import 'package:flutter_app/Pages/NewsPage/web_view.dart';
 
-Widget newsListTile(article, BuildContext context) {
+Widget newsListTile(NewsArticle article, BuildContext context) {
   return Container(
     margin: EdgeInsets.fromLTRB(2.0, 20.0, 2.0, 20.0),
     padding: EdgeInsets.all(0.0),
@@ -46,17 +48,26 @@ Widget newsListTile(article, BuildContext context) {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
-        Container(
-          margin: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-          padding: EdgeInsets.all(6.0),
-          child: Text(
-            article.title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
+        InkWell(
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ArticleWebView(
+                article: article,
+              ),
             ),
           ),
-        )
+          child: Container(
+            margin: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
+            padding: EdgeInsets.all(6.0),
+            child: Text(
+              article.title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+          ),
+        ),
       ],
     ),
   );
